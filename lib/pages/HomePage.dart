@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_notes_app/utils/SearchBar.dart';
 import '../utils/AppBar.dart';
 import '../utils/NotesView.dart';
+import 'TaskScreen.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -17,6 +18,16 @@ class HomePage extends StatelessWidget {
             Expanded(child: NotesView()),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => EditTaskScreen()),
+          );
+        },
+        child: Icon(Icons.add),
+        tooltip: 'Add Task',
       ),
     );
   }
