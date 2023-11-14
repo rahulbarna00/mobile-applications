@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../models/note_model.dart';
+
 class EditTaskScreen extends StatelessWidget {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
@@ -35,23 +37,25 @@ class EditTaskScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 16.0), // Add some space between text boxes
-          // Add any other widgets or buttons you need for creating a new task
           ElevatedButton(
             onPressed: () {
               // Handle the logic for saving the new task
               String taskTitle = titleController.text;
               String taskContent = contentController.text;
 
-              // Print or use taskTitle and taskContent as needed
-              print('Task Title: $taskTitle');
-              print('Task Content: $taskContent');
+              // Create a new Note instance
+              Note newNote = Note(
+                title: taskTitle,
+                content: taskContent,
+                timestamp: DateTime.now(),
+              );
 
-              Navigator.pop(context);
-
-
+              // Navigate back to the previous screen
+              Navigator.pop(context, newNote);
             },
             child: Text('Save Task'),
           ),
+
         ],
       ),
     );

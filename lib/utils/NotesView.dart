@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import '../models/note_model.dart';
 
-class NotesView extends StatelessWidget {
-  final List<Note> notes = sampleNotes; // Use the sampleNotes list
+class NotesView extends StatefulWidget {
+  final List<Note> notes; // Add this line to accept the notes list
 
+  NotesView({required this.notes, Key? key}) : super(key: key);
+
+  @override
+  _NotesViewState createState() => _NotesViewState();
+}
+
+class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: notes.length,
+      itemCount: widget.notes.length, // Update references to notes
       itemBuilder: (context, index) {
         return Card(
           elevation: 3.0,
@@ -16,14 +23,14 @@ class NotesView extends StatelessWidget {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(notes[index].title),
+                Text(widget.notes[index].title), // Update references to notes
                 Text(
-                  '${notes[index].timestamp.day}/${notes[index].timestamp.month}/${notes[index].timestamp.year}',
+                  '${widget.notes[index].timestamp.day}/${widget.notes[index].timestamp.month}/${widget.notes[index].timestamp.year}', // Update references to notes
                 ),
               ],
             ),
             subtitle: Text(
-              notes[index].content,
+              widget.notes[index].content, // Update references to notes
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

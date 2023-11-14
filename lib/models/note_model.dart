@@ -21,45 +21,4 @@ List<Note> sampleNotes = [
     content: 'Brainstorm new features and improvements.',
     timestamp: DateTime.now(),
   ),
-  Note(
-    title: 'Meeting Notes',
-    content: 'Discuss project timelines and goals.',
-    timestamp: DateTime.now(),
-  ),
-  Note(
-    title: 'Ideas for App',
-    content: 'Brainstorm new features and improvements.',
-    timestamp: DateTime.now(),
-  ),
-  Note(
-    title: 'Meeting Notes',
-    content: 'Discuss project timelines and goals.',
-    timestamp: DateTime.now(),
-  ),
-  Note(
-    title: 'Ideas for App',
-    content: 'Brainstorm new features and improvements.',
-    timestamp: DateTime.now(),
-  ),
-  Note(
-    title: 'Meeting Notes',
-    content: 'Discuss project timelines and goals.',
-    timestamp: DateTime.now(),
-  ),
-  Note(
-    title: 'Ideas for App',
-    content: 'Brainstorm new features and improvements.',
-    timestamp: DateTime.now(),
-  ),
-  Note(
-    title: 'Meeting Notes',
-    content: 'Discuss project timelines and goals.',
-    timestamp: DateTime.now(),
-  ),
-  Note(
-    title: 'Ideas for App',
-    content: 'Brainstorm new features and improvements.',
-    timestamp: DateTime.now(),
-  ),
-  // Add more notes as needed
 ];
