@@ -1,3 +1,4 @@
+//NotesView.dart
 import 'package:flutter/material.dart';
 import '../models/note_model.dart';
 
@@ -34,9 +35,23 @@ class _NotesViewState extends State<NotesView> {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                // Handle the delete task logic
+                _deleteTask(index);
+              },
+            ),
           ),
         );
       },
     );
+  }
+
+  void _deleteTask(int index) {
+    // Implement the logic to delete the task
+    setState(() {
+      widget.notes.removeAt(index);
+    });
   }
 }

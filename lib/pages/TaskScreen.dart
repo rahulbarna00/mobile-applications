@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../models/note_model.dart';
 
 class EditTaskScreen extends StatelessWidget {
@@ -38,7 +37,7 @@ class EditTaskScreen extends StatelessWidget {
           ),
           SizedBox(height: 16.0), // Add some space between text boxes
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               // Handle the logic for saving the new task
               String taskTitle = titleController.text;
               String taskContent = contentController.text;
@@ -50,12 +49,11 @@ class EditTaskScreen extends StatelessWidget {
                 timestamp: DateTime.now(),
               );
 
-              // Navigate back to the previous screen
+              // Navigate back to the previous screen and pass the newNote as the result
               Navigator.pop(context, newNote);
             },
             child: Text('Save Task'),
           ),
-
         ],
       ),
     );
