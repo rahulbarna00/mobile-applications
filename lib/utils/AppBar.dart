@@ -1,29 +1,21 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({super.key});
+
+  const CustomAppBar({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
-          'Notes',
-          style: TextStyle(fontSize: 30, color: Colors.black),
-        ),
-        IconButton(
-          onPressed: () {},
-          padding: const EdgeInsets.all(0),
-          icon: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25)),
-            child: const Icon(
-              Icons.sunny,
-              color: Colors.black,
-            ),
+        Padding(
+          padding: EdgeInsets.all(12.0),
+          child: Text(
+            'Notes',
+            style: TextStyle(fontSize: 30),
           ),
         ),
       ],

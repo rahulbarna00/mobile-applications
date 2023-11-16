@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool isDarkMode = false;
   List<Note> notes = sampleNotes; // Use the sampleNotes list
 
   @override
@@ -21,8 +22,8 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            CustomAppBar(),
-            CustomSearchBar(),
+            const CustomAppBar(),
+            const CustomSearchBar(),
             Expanded(child: NotesView(notes: notes)),
           ],
         ),
@@ -41,8 +42,8 @@ class _HomePageState extends State<HomePage> {
             });
           }
         },
-        child: Icon(Icons.add),
         tooltip: 'Add Task',
+        child: const Icon(Icons.add),
       ),
     );
   }

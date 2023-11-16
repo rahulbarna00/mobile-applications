@@ -12,13 +12,8 @@ class Note {
 
 List<Note> sampleNotes = [
   Note(
-    title: 'Meeting Notes',
-    content: 'Discuss project timelines and goals.',
-    timestamp: DateTime.now(),
-  ),
-  Note(
-    title: 'Ideas for App',
-    content: 'Brainstorm new features and improvements.',
+    title: 'Sample Note 1',
+    content: 'This is content of Sample Note 1',
     timestamp: DateTime.now(),
   ),
 ];

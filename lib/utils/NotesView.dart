@@ -19,39 +19,42 @@ class _NotesViewState extends State<NotesView> {
       shrinkWrap: true,
       itemCount: widget.notes.length,
       itemBuilder: (context, index) {
-        return Card(
-          elevation: 3.0,
-          child: ListTile(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(widget.notes[index].title),
-                Text(
-                  '${widget.notes[index].timestamp.day}/${widget.notes[index].timestamp.month}/${widget.notes[index].timestamp.year}',
-                ),
-              ],
-            ),
-            subtitle: Text(
-              widget.notes[index].content,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    _editTask(context, widget.notes[index]);
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    _deleteTask(index);
-                  },
-                ),
-              ],
+        return Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+          child: Card(
+            elevation: 2.5,
+            child: ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(widget.notes[index].title),
+                  Text(
+                    '${widget.notes[index].timestamp.day}/${widget.notes[index].timestamp.month}/${widget.notes[index].timestamp.year}',
+                  ),
+                ],
+              ),
+              subtitle: Text(
+                widget.notes[index].content,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      _editTask(context, widget.notes[index]);
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      _deleteTask(index);
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         );
