@@ -1,9 +1,10 @@
-//NotesView.dart
+// NotesView.dart
 import 'package:flutter/material.dart';
 import '../models/note_model.dart';
+import '../pages/TaskScreen.dart';
 
 class NotesView extends StatefulWidget {
-  final List<Note> notes; // Add this line to accept the notes list
+  final List<Note> notes;
 
   NotesView({required this.notes, Key? key}) : super(key: key);
 
@@ -16,7 +17,7 @@ class _NotesViewState extends State<NotesView> {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: widget.notes.length, // Update references to notes
+      itemCount: widget.notes.length,
       itemBuilder: (context, index) {
         return Card(
           elevation: 3.0,
@@ -24,23 +25,33 @@ class _NotesViewState extends State<NotesView> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(widget.notes[index].title), // Update references to notes
+                Text(widget.notes[index].title),
                 Text(
-                  '${widget.notes[index].timestamp.day}/${widget.notes[index].timestamp.month}/${widget.notes[index].timestamp.year}', // Update references to notes
+                  '${widget.notes[index].timestamp.day}/${widget.notes[index].timestamp.month}/${widget.notes[index].timestamp.year}',
                 ),
               ],
             ),
             subtitle: Text(
-              widget.notes[index].content, // Update references to notes
+              widget.notes[index].content,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-            trailing: IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                // Handle the delete task logic
-                _deleteTask(index);
-              },
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    _editTask(context, widget.notes[index]);
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    _deleteTask(index);
+                  },
+                ),
+              ],
             ),
           ),
         );
@@ -48,8 +59,24 @@ class _NotesViewState extends State<NotesView> {
     );
   }
 
+  void _editTask(BuildContext context, Note existingNote) async {
+    // Navigate to the EditTaskScreen and pass the existing task data
+    final editedNote = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EditTaskScreen(note: existingNote)),
+    );
+
+    if (editedNote != null && editedNote is Note) {
+      // Update the notes list and rebuild the widget
+      setState(() {
+        // Find the index of the existing note and replace it with the edited note
+        final index = widget.notes.indexOf(existingNote);
+        widget.notes[index] = editedNote;
+      });
+    }
+  }
+
   void _deleteTask(int index) {
-    // Implement the logic to delete the task
     setState(() {
       widget.notes.removeAt(index);
     });
