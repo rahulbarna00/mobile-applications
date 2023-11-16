@@ -33,7 +33,9 @@ class EditTaskScreen extends StatelessWidget {
                 hintText: 'Task Title',
               ),
             ),
-            const SizedBox(height: 2.0),
+            Divider(
+              thickness: 1.0,
+            ),
             Expanded(
               child: SingleChildScrollView(
                 child: TextField(

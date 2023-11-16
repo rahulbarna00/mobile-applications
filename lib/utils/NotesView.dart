@@ -21,39 +21,58 @@ class _NotesViewState extends State<NotesView> {
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
-          child: Card(
-            elevation: 2.5,
-            child: ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(widget.notes[index].title),
-                  Text(
-                    '${widget.notes[index].timestamp.day}/${widget.notes[index].timestamp.month}/${widget.notes[index].timestamp.year}',
+          child: GestureDetector(
+            onTap: (){
+              _editTask(context, widget.notes[index]);
+            },
+            child: Card(
+              elevation: 2.5,
+              child: ListTile(
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        widget.notes[index].title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
+                      child: Text(
+                        widget.notes[index].content,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0, top: 5.0),
+                  child: Text(
+                    'Last Edited: ${widget.notes[index].timestamp.day}/${widget.notes[index].timestamp.month}/${widget.notes[index].timestamp.year}',
+                    style: TextStyle(
+                        fontSize: 13.0,
+                    ),
                   ),
-                ],
-              ),
-              subtitle: Text(
-                widget.notes[index].content,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {
-                      _editTask(context, widget.notes[index]);
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      _deleteTask(index);
-                    },
-                  ),
-                ],
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          _deleteTask(index);
+                        },
+                      ),
+                    ],
+                ),
               ),
             ),
           ),

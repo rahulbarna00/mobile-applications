@@ -12,10 +12,10 @@ class CustomAppBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Padding(
-          padding: EdgeInsets.all(12.0),
+          padding: EdgeInsets.only(top: 18.0, left: 18.0, right: 18.0, bottom: 18.0),
           child: Text(
             'Notes',
-            style: TextStyle(fontSize: 30),
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
           ),
         ),
       ],
