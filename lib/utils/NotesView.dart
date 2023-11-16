@@ -21,13 +21,59 @@ class _NotesViewState extends State<NotesView> {
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
-          child: GestureDetector(
-            onTap: (){
-              _editTask(context, widget.notes[index]);
+          child: Dismissible(
+            key: Key(widget.notes[index].toString()), // Provide a unique key
+            confirmDismiss: (DismissDirection direction) async {
+              return await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Confirm Delete'),
+                    content: Text('Are you sure you want to delete this note?'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(false); // Don't dismiss
+                        },
+                        child: Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true); // Confirm dismiss
+                        },
+                        child: Text(
+                          'Delete'
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
             },
+            onDismissed: (direction) {
+              _performDelete(index);
+            },
+            background: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.red, // Set the background color to red
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.only(right: 20.0),
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.white,
+                ),
+              ),
+            ),
             child: Card(
               elevation: 2.5,
               child: ListTile(
+                onTap: () {
+                  _editTask(context, widget.notes[index]);
+                },
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -36,12 +82,13 @@ class _NotesViewState extends State<NotesView> {
                       child: Text(
                         widget.notes[index].title,
                         style: TextStyle(
-                          fontWeight: FontWeight.w400
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
+                      padding: const EdgeInsets.only(
+                          left: 5.0, right: 5.0, top: 5.0),
                       child: Text(
                         widget.notes[index].content,
                         maxLines: 2,
@@ -54,25 +101,16 @@ class _NotesViewState extends State<NotesView> {
                   ],
                 ),
                 subtitle: Padding(
-                  padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0, top: 5.0),
+                  padding: const EdgeInsets.only(
+                      left: 5.0, right: 5.0, bottom: 5.0, top: 5.0),
                   child: Text(
                     'Last Edited: ${widget.notes[index].timestamp.day}/${widget.notes[index].timestamp.month}/${widget.notes[index].timestamp.year}',
                     style: TextStyle(
-                        fontSize: 13.0,
+                      fontSize: 13.0,
                     ),
                   ),
                 ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          _deleteTask(index);
-                        },
-                      ),
-                    ],
-                ),
+
               ),
             ),
           ),
@@ -98,7 +136,7 @@ class _NotesViewState extends State<NotesView> {
     }
   }
 
-  void _deleteTask(int index) {
+  void _performDelete(int index) {
     setState(() {
       widget.notes.removeAt(index);
     });
