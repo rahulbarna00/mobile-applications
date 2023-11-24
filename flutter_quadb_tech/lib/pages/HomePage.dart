@@ -1,7 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quadb_tech/pages/DetailsPage.dart';
+import 'package:flutter_quadb_tech/pages/SearchPage.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> movies = [];
   bool isLoading = true; // Track whether data is loading or not
+  bool isSearchVisible = false; // Track whether search content is visible
 
   @override
   void initState() {
@@ -31,7 +33,7 @@ class _HomePageState extends State<HomePage> {
         final List<dynamic> responseData = json.decode(response.body);
         setState(() {
           movies = List<Map<String, dynamic>>.from(responseData);
-          isLoading = false; // Set loading to false after data is loaded
+          isLoading = false;
         });
       } else {
         throw Exception('Failed to load data');
@@ -39,7 +41,7 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       print('Error: $e');
       setState(() {
-        isLoading = false; // Set loading to false on error
+        isLoading = false;
       });
     }
   }
@@ -48,44 +50,57 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: Center(child: Text('QuadB TECH Movies')), // Set the title of the AppBar
       ),
-      body: isLoading
-          ? Center(
-        child: CircularProgressIndicator(),
-      )
-          : ListView.builder(
-        itemCount: movies.length,
-        itemBuilder: (context, index) {
-          var movie = movies[index]['show'];
+      body: Stack(
+        children: [
+          // Content above the bottom navigation bar
+          Visibility(
+            visible: !isSearchVisible,
+            child: isLoading
+                ? Center(
+              child: CircularProgressIndicator(),
+            )
+                : ListView.builder(
+              itemCount: movies.length,
+              itemBuilder: (context, index) {
+                var movie = movies[index]['show'];
 
-          return Card(
-            margin: EdgeInsets.all(8.0),
-            child: ListTile(
-              leading: Image.network(
-                movie['image']['medium'],
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
-              ),
-              title: Text(movie['name']),
-              subtitle: Text(
-                _removeHtmlTags(movie['summary']),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              onTap: () {
-                // Navigate to details page when tapped
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailsPage(movie: movie),
+                return Card(
+                  margin: EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: Image.network(
+                      movie['image']['medium'],
+                      width: 50,
+                      height: 50,
+                      fit: BoxFit.cover,
+                    ),
+                    title: Text(movie['name']),
+                    subtitle: Text(
+                      _removeHtmlTags(movie['summary']),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailsPage(movie: movie),
+                        ),
+                      );
+                    },
                   ),
                 );
               },
             ),
-          );
-        },
+          ),
+
+          // Search Page Content
+          Visibility(
+            visible: isSearchVisible,
+            child: SearchPage(),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
@@ -98,6 +113,13 @@ class _HomePageState extends State<HomePage> {
             label: 'Search',
           )
         ],
+        onTap: (index) {
+          setState(() {
+            isSearchVisible = index == 1;
+          });
+        },
+        selectedItemColor: Colors.black, // Set the selected item color to white
+        unselectedItemColor: Colors.black, // Set the unselected item color to grey
       ),
     );
   }

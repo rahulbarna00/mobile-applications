@@ -11,31 +11,76 @@ class DetailsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Details Page'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.network(
-              movie['image']['original'],
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            SizedBox(height: 16.0),
-            Text(
-              movie['name'],
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8.0),
-            Text(
-              _removeHtmlTags(movie['summary']),
-              style: TextStyle(fontSize: 16),
-            ),
-            // Add more details as needed
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.network(
+                movie['image']['original'],
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+              SizedBox(height: 16.0),
+              Text(
+                movie['name'],
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8.0),
+              Text(
+                _removeHtmlTags(movie['summary']),
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 16.0),
+              // Create a text field for each key-value pair
+              _buildKeyValueFields(movie),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildKeyValueFields(Map<String, dynamic> data) {
+    List<Widget> widgets = [];
+
+    data.forEach((key, value) {
+      if (key != 'image' && key != 'name' && key != 'summary') {
+        widgets.add(
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  key,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 4.0),
+                // Check if the value is a nested map
+                if (value is Map<String, dynamic>)
+                  _buildKeyValueFields(value) // Recursively build fields for nested map
+                else
+                  TextField(
+                    controller: TextEditingController(text: value.toString()),
+                    readOnly: true,
+                    maxLines: null, // Allow multiple lines for longer content
+                  ),
+                SizedBox(height: 8.0),
+              ],
+            ),
+          ),
+        );
+      }
+    });
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: widgets,
     );
   }
 
@@ -45,3 +90,4 @@ class DetailsPage extends StatelessWidget {
     return htmlString.replaceAll(exp, '');
   }
 }
+

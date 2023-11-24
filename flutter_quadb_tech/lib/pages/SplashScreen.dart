@@ -8,13 +8,12 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
-      splash: FlutterLogo(
-        size: 150,
+      splash: Image.asset(
+        'assets/logo.png', // Update the path based on your project structure
+        width: 150, // Adjust the width as needed
       ),
       nextScreen: HomePage(),
       splashTransition: SplashTransition.rotationTransition,
-
-
     );
   }
 }
