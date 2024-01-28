@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('QuadB TECH Movies')), // Set the title of the AppBar
+        title: Center(child: Text('Movies')), // Set the title of the AppBar
       ),
       body: Stack(
         children: [
